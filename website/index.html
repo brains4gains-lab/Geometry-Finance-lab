@@ -3,37 +3,53 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Geometry Finance Lab — an interdisciplinary laboratory built around geometric ideas.">
+    <meta name="description" content="Geometry Finance Lab — a quiet interdisciplinary research laboratory.">
     <title>Geometry Finance Lab · 0.1.0</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <header class="app-header">
-      <div><p class="eyebrow">Geometry Finance Lab</p><h1>One question. Three spaces.</h1></div>
-      <p class="header-status"><span class="status-dot"></span>Genesis · 0.1.0</p>
+      <button class="panel-trigger" id="open-context" type="button" aria-controls="context-panel" aria-expanded="false">Context</button>
+      <div class="brand"><p class="eyebrow">Geometry Finance Lab</p><h1>One question. Three spaces.</h1></div>
+      <button class="panel-trigger" id="open-tools" type="button" aria-controls="tools-panel" aria-expanded="false">Tools</button>
     </header>
-    <main class="lab-layout">
-      <aside class="context-panel" aria-label="Context panel">
+
+    <main class="workspace" id="workspace" tabindex="-1" aria-label="Workspace">
+      <p class="eyebrow">02 / Workspace</p>
+      <section class="workspace-page is-active" id="entrance" aria-labelledby="entrance-heading">
+        <h2 id="entrance-heading">Geometry Finance Lab</h2>
+        <p class="lede">A sustainable interdisciplinary research laboratory built around geometric ideas.</p>
+        <blockquote>“Yes. This is the beginning of the laboratory I imagined.”</blockquote>
+        <p class="principle-line">Three Spaces · One Open · Quiet Geometry</p>
+      </section>
+      <section class="workspace-page" id="mission" aria-labelledby="mission-heading"><h2 id="mission-heading">Mission</h2><h3>Goal</h3><ul><li>Collaborate with major fintech companies.</li><li>Collaborate with three leading research universities.</li><li>Build a sustainable interdisciplinary research laboratory.</li></ul><h3>Project overview</h3><p>Geometry Finance Lab develops original research hypotheses based on geometric ideas. The laboratory validates ideas carefully, develops shared methods, and grows an AI-supported research practice.</p><h3>Challenges</h3><ul><li>Financial sustainability of the team.</li><li>Recognition in fintech and scientific communities.</li><li>Contribution to Human–AI safety.</li></ul><h3>Expected results</h3><ul><li>Stable financial independence.</li><li>Collaboration with MIT, Stanford, or Caltech.</li></ul></section>
+      <section class="workspace-page" id="people" aria-labelledby="people-heading"><h2 id="people-heading">People</h2><p class="lede">Founding members</p><ul class="member-list"><li>Mikhail</li><li>Olya</li><li>Flora</li><li>Nik</li><li>Dil</li><li>Serzh</li><li>Phil</li><li>Max</li></ul><p>Each member profile will later describe their role, cognitive profile, responsibilities, and current projects.</p></section>
+      <section class="workspace-page" id="research" aria-labelledby="research-heading"><h2 id="research-heading">Research</h2><h3>Primary tasks</h3><ol><li>Generate research hypotheses.</li><li>Validate them rapidly, consistently, and confidentially.</li><li>Build and operate the research laboratory.</li></ol><h3>Development stages</h3><ol><li>Voluntary distribution of responsibilities.</li><li>An MVP laboratory for validating and improving hypotheses.</li><li>Development of shared research methods and a durable knowledge base.</li><li>A full-scale interdisciplinary research laboratory.</li></ol><p class="note">This public release is a quiet space for ideas, evidence, and shared learning.</p></section>
+      <section class="workspace-page" id="principles" aria-labelledby="principles-heading"><h2 id="principles-heading">Principles</h2><ul class="principle-list"><li>Three Spaces</li><li>One Open (Singular Focus)</li><li>Quiet Geometry</li><li>Knowledge Crystallization</li><li>Shared Discovery</li><li>Persistent Progress</li><li>Successive Refinement</li><li>Intellectual Heritage</li></ul></section>
+      <section class="workspace-page" id="values" aria-labelledby="values-heading"><h2 id="values-heading">Values</h2><p class="lede">Values are demonstrated through actions.</p><p>Truthful stories illustrate values in practice.</p></section>
+      <section class="workspace-page" id="stories" aria-labelledby="stories-heading"><h2 id="stories-heading">Stories</h2><p>Truthful stories from laboratory life will illustrate values in action.</p></section>
+      <section class="workspace-page" id="knowledge" aria-labelledby="knowledge-heading"><h2 id="knowledge-heading">Knowledge</h2><p>Structured research notes, articles, diagrams, and transformed conversations will form the laboratory’s shared knowledge.</p></section>
+      <section class="workspace-page" id="projects" aria-labelledby="projects-heading"><h2 id="projects-heading">Projects</h2><p>Research programmes, prototypes, and releases will be collected here.</p></section>
+      <section class="workspace-page" id="library" aria-labelledby="library-heading"><h2 id="library-heading">Library</h2><p>Books, papers, poetry, films, music, lectures, and other works that formed the laboratory’s thinking.</p></section>
+      <section class="workspace-page" id="today" aria-labelledby="today-heading"><h2 id="today-heading">Today</h2><p class="lede">Genesis · release 0.1.0</p><p>The first public map of Geometry Finance Lab: its mission, people, research direction, principles, and future knowledge spaces.</p><h3>Current priority</h3><p>Quiet Geometry: turn the laboratory map into a calm, useful research environment.</p><h3>Session log</h3><p>Founding Session — the Three Spaces, One Open, and Quiet Geometry were named.</p></section>
+    </main>
+
+    <aside class="side-panel context-panel" id="context-panel" aria-label="Context panel" aria-hidden="true">
+      <div class="panel-inner">
         <p class="eyebrow">01 / Context</p><h2>Laboratory map</h2>
         <nav class="section-menu" aria-label="Laboratory sections">
-          <button type="button" data-section="entrance" class="is-active">Entrance</button><button type="button" data-section="mission">Mission</button><button type="button" data-section="people">People</button><button type="button" data-section="research">Research</button><button type="button" data-section="principles">Principles</button><button type="button" data-section="values">Values</button><button type="button" data-section="stories">Stories</button><button type="button" data-section="knowledge">Knowledge</button><button type="button" data-section="projects">Projects</button><button type="button" data-section="library">Library</button><button type="button" data-section="today">Today</button>
+          <button type="button" data-section="entrance">Entrance</button><button type="button" data-section="mission">Mission</button><button type="button" data-section="people">People</button><button type="button" data-section="research">Research</button><button type="button" data-section="principles">Principles</button><button type="button" data-section="values">Values</button><button type="button" data-section="stories">Stories</button><button type="button" data-section="knowledge">Knowledge</button><button type="button" data-section="projects">Projects</button><button type="button" data-section="library">Library</button><button type="button" data-section="today">Today</button>
         </nav>
-      </aside>
-      <section class="reading-panel" aria-live="polite">
-        <article id="entrance" class="section-page is-active"><p class="eyebrow">Entrance</p><h2>Geometry Finance Lab</h2><p class="lede">A sustainable interdisciplinary research laboratory built around geometric ideas.</p><blockquote>“Yes. This is the beginning of the laboratory I imagined.”</blockquote><div class="principle-line">Three Spaces · One Open · Quiet Geometry</div></article>
-        <article id="mission" class="section-page"><p class="eyebrow">Mission</p><h2>Build a laboratory that can endure</h2><h3>Goal</h3><ul><li>Collaborate with major fintech companies.</li><li>Collaborate with three leading research universities.</li><li>Build a sustainable interdisciplinary research laboratory.</li></ul><h3>Project overview</h3><p>Geometry Finance Lab develops original research hypotheses based on geometric ideas. The laboratory validates ideas carefully, develops shared methods, and grows an AI-supported research practice.</p><h3>Challenges</h3><ul><li>Financial sustainability of the team.</li><li>Recognition in fintech and scientific communities.</li><li>Contribution to Human–AI safety.</li></ul><h3>Expected results</h3><ul><li>Stable financial independence.</li><li>Collaboration with MIT, Stanford, or Caltech.</li></ul></article>
-        <article id="people" class="section-page"><p class="eyebrow">People</p><h2>Founding members</h2><ul class="member-list"><li>Mikhail</li><li>Olya</li><li>Flora</li><li>Nik</li><li>Dil</li><li>Serzh</li><li>Phil</li><li>Max</li></ul><p>Each member profile will later describe their role, cognitive profile, responsibilities, and current projects.</p></article>
-        <article id="research" class="section-page"><p class="eyebrow">Research</p><h2>Research with care and confidentiality</h2><h3>Primary tasks</h3><ol><li>Generate research hypotheses.</li><li>Validate them rapidly, consistently, and confidentially.</li><li>Build and operate the research laboratory.</li></ol><h3>Development stages</h3><ol><li>Voluntary distribution of responsibilities.</li><li>An MVP laboratory for validating and improving hypotheses.</li><li>Development of shared research methods and a durable knowledge base.</li><li>A full-scale interdisciplinary research laboratory.</li></ol><p class="note">This public release is a quiet space for ideas, evidence, and shared learning.</p></article>
-        <article id="principles" class="section-page"><p class="eyebrow">Principles</p><h2>How the laboratory works</h2><ul class="principle-list"><li>Three Spaces</li><li>One Open (Singular Focus)</li><li>Quiet Geometry</li><li>Knowledge Crystallization</li><li>Shared Discovery</li><li>Persistent Progress</li><li>Successive Refinement</li><li>Intellectual Heritage</li></ul></article>
-        <article id="values" class="section-page"><p class="eyebrow">Values</p><h2>Values are demonstrated through actions.</h2><p>Truthful stories illustrate values in practice.</p></article>
-        <article id="stories" class="section-page"><p class="eyebrow">Stories</p><h2>Laboratory life</h2><p>Truthful stories from laboratory life will illustrate values in action.</p></article>
-        <article id="knowledge" class="section-page"><p class="eyebrow">Knowledge</p><h2>Knowledge that can be revisited</h2><p>Structured research notes, articles, diagrams, and transformed conversations will form the laboratory’s shared knowledge.</p></article>
-        <article id="projects" class="section-page"><p class="eyebrow">Projects</p><h2>Programmes and releases</h2><p>Research programmes, prototypes, and releases will be collected here.</p></article>
-        <article id="library" class="section-page"><p class="eyebrow">Library</p><h2>Works that formed the thinking</h2><p>Books, papers, poetry, films, music, lectures, and other works that formed the laboratory’s thinking.</p></article>
-        <article id="today" class="section-page"><p class="eyebrow">Today</p><h2>Genesis · release 0.1.0</h2><p>The first public map of Geometry Finance Lab: its mission, people, research direction, principles, and future knowledge spaces.</p><h3>Current priority</h3><p>Quiet Geometry: turn the laboratory map into a calm, useful research environment.</p><h3>Session log</h3><p>Founding Session — the Three Spaces, One Open, and Quiet Geometry were named.</p></article>
-      </section>
-      <aside class="tools-panel" aria-labelledby="tools-heading"><p class="eyebrow">03 / Tools</p><h2 id="tools-heading">Working boundary</h2><div class="tool-card"><h3>Research first</h3><p>Claims are formed as hypotheses, tested against evidence, and refined within the laboratory.</p></div><div class="tool-card"><h3>Public release</h3><p>This site shares the laboratory’s direction and preserves a calm place for shared inquiry.</p></div></aside>
-    </main>
+      </div>
+    </aside>
+
+    <aside class="side-panel tools-panel" id="tools-panel" aria-label="Tool panel" aria-hidden="true">
+      <div class="panel-inner">
+        <p class="eyebrow">03 / Tools</p><h2>Actions</h2>
+        <div class="tool-actions"><button type="button" data-action="search">Search</button><button type="button" data-action="language">Language</button><button type="button" data-action="assistant">AI Assistant</button><button type="button" data-action="settings">Settings</button><button type="button" data-action="history">History</button><button type="button" data-action="notifications">Notifications</button><button type="button" data-action="export">Export</button></div>
+        <p class="tool-status" id="tool-status" role="status">Choose an action.</p>
+      </div>
+    </aside>
     <script src="app.js"></script>
   </body>
 </html>
