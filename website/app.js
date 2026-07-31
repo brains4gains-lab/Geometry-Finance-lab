@@ -10,38 +10,40 @@ const sectionButtons = [...document.querySelectorAll(".section-menu button")];
 const toolStatus = document.querySelector("#tool-status");
 let state = State.NONE;
 let audioContext;
-let activeRustle;
+let activePanelSound;
 
-function playPanelRustle() {
+function playPanelSound() {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !navigator.userActivation?.isActive) return;
   try {
     audioContext ??= new AudioContext();
     if (audioContext.state === "suspended") audioContext.resume();
-    activeRustle?.stop();
-    const duration = .12;
+    activePanelSound?.stop();
+    const duration = .18;
     const buffer = audioContext.createBuffer(1, Math.ceil(audioContext.sampleRate * duration), audioContext.sampleRate);
     const data = buffer.getChannelData(0);
     for (let index = 0; index < data.length; index += 1) {
-      const fade = 1 - index / data.length;
-      data[index] = (Math.random() * 2 - 1) * fade * fade;
+      const time = index / audioContext.sampleRate;
+      const body = Math.sin(2 * Math.PI * 72 * time) * Math.exp(-time / .034) * .68;
+      const cushion = (Math.random() * 2 - 1) * Math.exp(-time / .026) * .13;
+      const clickOne = Math.max(0, time - .125);
+      const clickTwo = Math.max(0, time - .148);
+      const doubleClick = (Math.sin(2 * Math.PI * 1750 * clickOne) * Math.exp(-clickOne / .004)
+        + Math.sin(2 * Math.PI * 1750 * clickTwo) * Math.exp(-clickTwo / .004)) * .18;
+      data[index] = body + cushion + doubleClick;
     }
     const source = audioContext.createBufferSource();
-    const filter = audioContext.createBiquadFilter();
     const gain = audioContext.createGain();
     source.buffer = buffer;
-    filter.type = "bandpass";
-    filter.frequency.value = 900;
-    filter.Q.value = .55;
     gain.gain.setValueAtTime(.032, audioContext.currentTime);
     gain.gain.exponentialRampToValueAtTime(.001, audioContext.currentTime + duration);
-    source.connect(filter).connect(gain).connect(audioContext.destination);
+    source.connect(gain).connect(audioContext.destination);
     source.start();
-    activeRustle = source;
+    activePanelSound = source;
   } catch { /* Keep interaction silent when audio is unavailable or blocked. */ }
 }
 
 function setState(next) {
-  if (state !== next) playPanelRustle();
+  if (state !== next) playPanelSound();
   state = next;
   root.classList.toggle("panel-open", state !== State.NONE);
   root.classList.toggle("state-left", state === State.LEFT);
