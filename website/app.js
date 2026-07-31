@@ -9,8 +9,39 @@ const pages = [...document.querySelectorAll(".workspace-page")];
 const sectionButtons = [...document.querySelectorAll(".section-menu button")];
 const toolStatus = document.querySelector("#tool-status");
 let state = State.NONE;
+let audioContext;
+let activeRustle;
+
+function playPanelRustle() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !navigator.userActivation?.isActive) return;
+  try {
+    audioContext ??= new AudioContext();
+    if (audioContext.state === "suspended") audioContext.resume();
+    activeRustle?.stop();
+    const duration = .12;
+    const buffer = audioContext.createBuffer(1, Math.ceil(audioContext.sampleRate * duration), audioContext.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let index = 0; index < data.length; index += 1) {
+      const fade = 1 - index / data.length;
+      data[index] = (Math.random() * 2 - 1) * fade * fade;
+    }
+    const source = audioContext.createBufferSource();
+    const filter = audioContext.createBiquadFilter();
+    const gain = audioContext.createGain();
+    source.buffer = buffer;
+    filter.type = "bandpass";
+    filter.frequency.value = 900;
+    filter.Q.value = .55;
+    gain.gain.setValueAtTime(.016, audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(.001, audioContext.currentTime + duration);
+    source.connect(filter).connect(gain).connect(audioContext.destination);
+    source.start();
+    activeRustle = source;
+  } catch { /* Keep interaction silent when audio is unavailable or blocked. */ }
+}
 
 function setState(next) {
+  if (state !== next) playPanelRustle();
   state = next;
   root.classList.toggle("panel-open", state !== State.NONE);
   root.classList.toggle("state-left", state === State.LEFT);
