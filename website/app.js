@@ -6,7 +6,9 @@ const toolsTrigger = document.querySelector("#open-tools");
 const contextPanel = document.querySelector("#context-panel");
 const toolsPanel = document.querySelector("#tools-panel");
 const pages = [...document.querySelectorAll(".workspace-page")];
-const sectionButtons = [...document.querySelectorAll(".section-menu button")];
+const sectionButtons = [...document.querySelectorAll(".section-menu button[data-section]")];
+const accordionToggles = [...document.querySelectorAll(".accordion-toggle")];
+const actionButtons = [...document.querySelectorAll(".tool-actions button[data-action]")];
 const toolStatus = document.querySelector("#tool-status");
 let state = State.NONE;
 let audioContext;
@@ -56,6 +58,17 @@ function setState(next) {
 
 function toggle(target) { setState(state === target ? State.NONE : target); }
 
+function toggleAccordion(toggle) {
+  const panel = document.querySelector(`#${toggle.getAttribute("aria-controls")}`);
+  if (!panel) return;
+  const willExpand = toggle.getAttribute("aria-expanded") !== "true";
+  accordionToggles.forEach((otherToggle) => {
+    const otherPanel = document.querySelector(`#${otherToggle.getAttribute("aria-controls")}`);
+    otherToggle.setAttribute("aria-expanded", String(otherToggle === toggle && willExpand));
+    if (otherPanel) otherPanel.hidden = otherToggle !== toggle || !willExpand;
+  });
+}
+
 function showSection(id) {
   const target = document.querySelector(`#${id}`);
   if (!target) return;
@@ -71,5 +84,6 @@ toolsTrigger.addEventListener("click", () => toggle(State.RIGHT));
 workspace.addEventListener("click", () => { if (state !== State.NONE) setState(State.NONE); });
 document.addEventListener("keydown", (event) => { if (event.key === "Escape") setState(State.NONE); });
 sectionButtons.forEach((button) => button.addEventListener("click", () => showSection(button.dataset.section)));
-document.querySelectorAll(".tool-actions button").forEach((button) => button.addEventListener("click", () => { toolStatus.textContent = `${button.textContent} is reserved for a future laboratory action.`; }));
+accordionToggles.forEach((toggle) => toggle.addEventListener("click", () => toggleAccordion(toggle)));
+actionButtons.forEach((button) => button.addEventListener("click", () => { toolStatus.textContent = `${button.textContent} is reserved for a future laboratory action.`; }));
 setState(State.NONE);

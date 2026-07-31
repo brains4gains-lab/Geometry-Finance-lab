@@ -11,7 +11,11 @@
     <header class="app-header">
       <button class="panel-trigger panel-icon" id="open-context" type="button" aria-controls="context-panel" aria-expanded="false" aria-label="Context"><span aria-hidden="true">☰</span></button>
       <div class="brand"><p class="eyebrow">Geometry Finance Lab</p></div>
-      <button class="panel-trigger panel-icon" id="open-tools" type="button" aria-controls="tools-panel" aria-expanded="false" aria-label="Tools"><span aria-hidden="true">⚙</span></button>
+      <div class="header-actions">
+        <button class="panel-trigger panel-icon" type="button" aria-label="Share"><span aria-hidden="true">↗</span></button>
+        <button class="panel-trigger panel-icon" type="button" aria-label="Edit"><span aria-hidden="true">✎</span></button>
+        <button class="panel-trigger panel-icon" id="open-tools" type="button" aria-controls="tools-panel" aria-expanded="false" aria-label="Settings"><span aria-hidden="true">⚙</span></button>
+      </div>
     </header>
 
     <main class="workspace" id="workspace" tabindex="-1" aria-label="Workspace">
@@ -30,6 +34,7 @@
       <section class="workspace-page" id="principles" aria-labelledby="principles-heading"><h2 id="principles-heading">Principles</h2><ul class="principle-list"><li>Three Spaces</li><li>One Open (Singular Focus)</li><li>Quiet Geometry</li><li>Knowledge Crystallization</li><li>Shared Discovery</li><li>Persistent Progress</li><li>Successive Refinement</li><li>Intellectual Heritage</li></ul></section>
       <section class="workspace-page" id="values" aria-labelledby="values-heading"><h2 id="values-heading">Values</h2><p class="lede">Values are demonstrated through actions.</p><p>Truthful stories illustrate values in practice.</p></section>
       <section class="workspace-page" id="stories" aria-labelledby="stories-heading"><h2 id="stories-heading">Stories</h2><p>Truthful stories from laboratory life will illustrate values in action.</p></section>
+      <section class="workspace-page" id="connections" aria-labelledby="connections-heading"><h2 id="connections-heading">Connections</h2><p>People, institutions, and shared lines of inquiry that support the laboratory.</p></section>
       <section class="workspace-page" id="knowledge" aria-labelledby="knowledge-heading"><h2 id="knowledge-heading">Knowledge</h2><p>Structured research notes, articles, diagrams, and transformed conversations will form the laboratory’s shared knowledge.</p></section>
       <section class="workspace-page" id="projects" aria-labelledby="projects-heading"><h2 id="projects-heading">Projects</h2><p>Research programmes, prototypes, and releases will be collected here.</p></section>
       <section class="workspace-page" id="library" aria-labelledby="library-heading"><h2 id="library-heading">Library</h2><p>Books, papers, poetry, films, music, lectures, and other works that formed the laboratory’s thinking.</p></section>
@@ -40,7 +45,21 @@
       <div class="panel-inner">
         <p class="eyebrow">01 / Context</p><h2>Laboratory map</h2>
         <nav class="section-menu" aria-label="Laboratory sections">
-          <button type="button" data-section="entrance">Entrance</button><button type="button" data-section="mission">Mission</button><button type="button" data-section="values">Values</button><button type="button" data-section="principles">Principles</button><button type="button" data-section="people">People</button><button type="button" data-section="stories">Stories</button><button type="button" data-section="projects">Projects</button><button type="button" data-section="research">Research</button><button type="button" data-section="knowledge">Knowledge</button><button type="button" data-section="library">Library</button><button type="button" data-section="today">Today</button>
+          <button type="button" data-section="entrance">Entrance</button>
+          <div class="menu-group">
+            <button class="accordion-toggle" type="button" aria-expanded="false" aria-controls="fundamentals-menu">Foundations<span class="accordion-mark" aria-hidden="true"></span></button>
+            <div class="submenu" id="fundamentals-menu" hidden><button type="button" data-section="mission">Mission</button><button type="button" data-section="values">Values</button><button type="button" data-section="principles">Principles</button></div>
+          </div>
+          <div class="menu-group">
+            <button class="accordion-toggle" type="button" aria-expanded="false" aria-controls="persons-menu">Persons<span class="accordion-mark" aria-hidden="true"></span></button>
+            <div class="submenu" id="persons-menu" hidden><button type="button" data-section="people">People</button><button type="button" data-section="stories">Stories</button><button type="button" data-section="connections">Connections</button></div>
+          </div>
+          <div class="menu-group">
+            <button class="accordion-toggle" type="button" aria-expanded="false" aria-controls="activities-menu">Activities<span class="accordion-mark" aria-hidden="true"></span></button>
+            <div class="submenu" id="activities-menu" hidden><button type="button" data-section="projects">Projects</button><button type="button" data-section="research">Research</button><button type="button" data-section="knowledge">Knowledge</button></div>
+          </div>
+          <button type="button" data-section="library">Library</button>
+          <button type="button" data-section="today">Today</button>
         </nav>
       </div>
     </aside>
@@ -48,7 +67,7 @@
     <aside class="side-panel tools-panel" id="tools-panel" aria-label="Tool panel" aria-hidden="true">
       <div class="panel-inner">
         <p class="eyebrow">03 / Tools</p><h2>Actions</h2>
-        <div class="tool-actions"><button type="button" data-action="quick-access">Quick access</button><button type="button" data-action="search">Search</button><button type="button" data-action="language">Language</button><button type="button" data-action="assistant">AI Assistant</button><button type="button" data-action="settings">Settings</button><button type="button" data-action="history">History</button><button type="button" data-action="notifications">Notifications</button><button type="button" data-action="export">Export</button></div>
+        <div class="tool-actions"><button type="button" data-action="quick-access">Quick access</button><button type="button" data-action="search">Search</button><button type="button" data-action="assistant">AI Assistant</button><div class="menu-group"><button class="accordion-toggle" type="button" aria-expanded="false" aria-controls="settings-menu">Settings<span class="accordion-mark" aria-hidden="true"></span></button><div class="submenu" id="settings-menu" hidden><button type="button" data-action="language">Language</button><button type="button" data-action="palette">Palette</button></div></div><button type="button" data-action="history">History</button><button type="button" data-action="notifications">Notifications</button><button type="button" data-action="export">Export</button></div>
         <p class="tool-status" id="tool-status" role="status">Choose an action.</p>
       </div>
     </aside>
