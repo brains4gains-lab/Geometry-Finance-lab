@@ -3,107 +3,37 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="A local-first research workspace for Geometry Finance Lab.">
-    <title>Geometry Finance Lab - 0.1.0</title>
+    <meta name="description" content="Geometry Finance Lab — an interdisciplinary laboratory built around geometric ideas.">
+    <title>Geometry Finance Lab · 0.1.0</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <header class="app-header">
-      <div>
-        <p class="eyebrow">Geometry Finance Lab</p>
-        <h1>One question. Three spaces.</h1>
-      </div>
-      <div class="header-status"><span class="status-dot"></span>Local-only prototype - 0.1.0</div>
+      <div><p class="eyebrow">Geometry Finance Lab</p><h1>One question. Three spaces.</h1></div>
+      <p class="header-status"><span class="status-dot"></span>Genesis · 0.1.0</p>
     </header>
-
-    <main class="workspace" aria-label="Geometry Finance Lab workspace">
-      <aside class="panel context-panel" aria-labelledby="context-heading">
-        <div class="panel-heading">
-          <p class="eyebrow">01 / Context</p>
-          <h2 id="context-heading">What is known?</h2>
-        </div>
-        <label for="question">Research question</label>
-        <textarea id="question" rows="5" placeholder="State one falsifiable market question..."></textarea>
-        <div class="context-notes">
-          <p>Keep evidence separate from interpretation. This prototype stores entries only in this browser.</p>
-          <ul>
-            <li>No exchange connection</li>
-            <li>No orders or recommendations</li>
-            <li>No data leaves this device</li>
-          </ul>
-        </div>
+    <main class="lab-layout">
+      <aside class="context-panel" aria-label="Context panel">
+        <p class="eyebrow">01 / Context</p><h2>Laboratory map</h2>
+        <nav class="section-menu" aria-label="Laboratory sections">
+          <button type="button" data-section="entrance" class="is-active">Entrance</button><button type="button" data-section="mission">Mission</button><button type="button" data-section="people">People</button><button type="button" data-section="research">Research</button><button type="button" data-section="principles">Principles</button><button type="button" data-section="values">Values</button><button type="button" data-section="stories">Stories</button><button type="button" data-section="knowledge">Knowledge</button><button type="button" data-section="projects">Projects</button><button type="button" data-section="library">Library</button><button type="button" data-section="today">Today</button>
+        </nav>
       </aside>
-
-      <section class="focus-panel" aria-labelledby="focus-heading">
-        <div class="focus-toolbar">
-          <div>
-            <p class="eyebrow">02 / Focus</p>
-            <h2 id="focus-heading">Research canvas</h2>
-          </div>
-          <button class="text-button" id="clear-workspace" type="button">Clear local workspace</button>
-        </div>
-
-        <div class="tool-card" aria-label="Founding session">
-          <h3>Founding session</h3>
-          <p><em>"Yes. This is the beginning of the laboratory I imagined."</em></p>
-          <p><strong>Three Spaces · One Open · Quiet Geometry</strong></p>
-        </div>
-
-        <form id="observation-form" class="observation-form">
-          <label for="observation">Observation</label>
-          <textarea id="observation" rows="4" required placeholder="Record an observed pattern, source, or counterexample..."></textarea>
-          <div class="form-grid">
-            <label for="source">Source or dataset<input id="source" type="text" placeholder="e.g. BTCUSDT 1h, 2026-07-31"></label>
-            <label for="confidence">Confidence
-              <select id="confidence">
-                <option value="low">Low</option>
-                <option value="medium" selected>Medium</option>
-                <option value="high">High</option>
-              </select>
-            </label>
-          </div>
-          <div class="form-actions">
-            <p id="save-state" role="status">Nothing is saved yet.</p>
-            <button class="primary-button" type="submit">Add observation</button>
-          </div>
-        </form>
-
-        <div class="ledger-heading">
-          <h3>Observation ledger</h3>
-          <span id="entry-count">0 entries</span>
-        </div>
-        <ol id="observation-list" class="observation-list" aria-live="polite"></ol>
+      <section class="reading-panel" aria-live="polite">
+        <article id="entrance" class="section-page is-active"><p class="eyebrow">Entrance</p><h2>Geometry Finance Lab</h2><p class="lede">A sustainable interdisciplinary research laboratory built around geometric ideas.</p><blockquote>“Yes. This is the beginning of the laboratory I imagined.”</blockquote><div class="principle-line">Three Spaces · One Open · Quiet Geometry</div></article>
+        <article id="mission" class="section-page"><p class="eyebrow">Mission</p><h2>Build a laboratory that can endure</h2><h3>Goal</h3><ul><li>Collaborate with major fintech companies.</li><li>Collaborate with three leading research universities.</li><li>Build a sustainable interdisciplinary research laboratory.</li></ul><h3>Project overview</h3><p>Geometry Finance Lab develops original research hypotheses based on geometric ideas. The laboratory validates ideas carefully, develops shared methods, and grows an AI-supported research practice.</p><h3>Challenges</h3><ul><li>Financial sustainability of the team.</li><li>Recognition in fintech and scientific communities.</li><li>Contribution to Human–AI safety.</li></ul><h3>Expected results</h3><ul><li>Stable financial independence.</li><li>Collaboration with MIT, Stanford, or Caltech.</li></ul></article>
+        <article id="people" class="section-page"><p class="eyebrow">People</p><h2>Founding members</h2><ul class="member-list"><li>Mikhail</li><li>Olya</li><li>Flora</li><li>Nik</li><li>Dil</li><li>Serzh</li><li>Phil</li><li>Max</li></ul><p>Each member profile will later describe their role, cognitive profile, responsibilities, and current projects.</p></article>
+        <article id="research" class="section-page"><p class="eyebrow">Research</p><h2>Research with care and confidentiality</h2><h3>Primary tasks</h3><ol><li>Generate research hypotheses.</li><li>Validate them rapidly, consistently, and confidentially.</li><li>Build and operate the research laboratory.</li></ol><h3>Development stages</h3><ol><li>Voluntary distribution of responsibilities.</li><li>An MVP laboratory for validating and improving hypotheses.</li><li>Development of shared research methods and a durable knowledge base.</li><li>A full-scale interdisciplinary research laboratory.</li></ol><p class="note">This public release is a quiet space for ideas, evidence, and shared learning.</p></article>
+        <article id="principles" class="section-page"><p class="eyebrow">Principles</p><h2>How the laboratory works</h2><ul class="principle-list"><li>Three Spaces</li><li>One Open (Singular Focus)</li><li>Quiet Geometry</li><li>Knowledge Crystallization</li><li>Shared Discovery</li><li>Persistent Progress</li><li>Successive Refinement</li><li>Intellectual Heritage</li></ul></article>
+        <article id="values" class="section-page"><p class="eyebrow">Values</p><h2>Values are demonstrated through actions.</h2><p>Truthful stories illustrate values in practice.</p></article>
+        <article id="stories" class="section-page"><p class="eyebrow">Stories</p><h2>Laboratory life</h2><p>Truthful stories from laboratory life will illustrate values in action.</p></article>
+        <article id="knowledge" class="section-page"><p class="eyebrow">Knowledge</p><h2>Knowledge that can be revisited</h2><p>Structured research notes, articles, diagrams, and transformed conversations will form the laboratory’s shared knowledge.</p></article>
+        <article id="projects" class="section-page"><p class="eyebrow">Projects</p><h2>Programmes and releases</h2><p>Research programmes, prototypes, and releases will be collected here.</p></article>
+        <article id="library" class="section-page"><p class="eyebrow">Library</p><h2>Works that formed the thinking</h2><p>Books, papers, poetry, films, music, lectures, and other works that formed the laboratory’s thinking.</p></article>
+        <article id="today" class="section-page"><p class="eyebrow">Today</p><h2>Genesis · release 0.1.0</h2><p>The first public map of Geometry Finance Lab: its mission, people, research direction, principles, and future knowledge spaces.</p><h3>Current priority</h3><p>Quiet Geometry: turn the laboratory map into a calm, useful research environment.</p><h3>Session log</h3><p>Founding Session — the Three Spaces, One Open, and Quiet Geometry were named.</p></article>
       </section>
-
-      <aside class="panel tool-panel" aria-labelledby="tools-heading">
-        <div class="panel-heading">
-          <p class="eyebrow">03 / Tools</p>
-          <h2 id="tools-heading">How to test it?</h2>
-        </div>
-        <div class="tool-card">
-          <h3>Working rule</h3>
-          <p>Every claim needs a source, a confidence level, and a way to be disproved.</p>
-        </div>
-        <div class="tool-card">
-          <h3>Suggested next pass</h3>
-          <ol>
-            <li>Define the instrument and timeframe.</li>
-            <li>Add one observation and one counterexample.</li>
-            <li>Export the ledger for review.</li>
-          </ol>
-        </div>
-        <button class="secondary-button" id="export-ledger" type="button">Export ledger (.json)</button>
-      </aside>
+      <aside class="tools-panel" aria-labelledby="tools-heading"><p class="eyebrow">03 / Tools</p><h2 id="tools-heading">Working boundary</h2><div class="tool-card"><h3>Research first</h3><p>Claims are formed as hypotheses, tested against evidence, and refined within the laboratory.</p></div><div class="tool-card"><h3>Public release</h3><p>This site shares the laboratory’s direction and preserves a calm place for shared inquiry.</p></div></aside>
     </main>
-
-    <template id="observation-template">
-      <li class="observation-card">
-        <div class="observation-topline"><span class="confidence"></span><time></time></div>
-        <p class="observation-text"></p>
-        <p class="observation-source"></p>
-        <button class="delete-entry" type="button">Remove</button>
-      </li>
-    </template>
     <script src="app.js"></script>
   </body>
 </html>
