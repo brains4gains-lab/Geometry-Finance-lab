@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A local-first research workspace for Geometry Finance Lab.">
+    <title>Geometry Finance Lab · 0.1.0</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Geometry Finance Lab</p>
+        <h1>One question. Three spaces.</h1>
+      </div>
+      <div class="header-status"><span class="status-dot"></span>Local-only prototype · 0.1.0</div>
+    </header>
+
+    <main class="workspace" aria-label="Geometry Finance Lab workspace">
+      <aside class="panel context-panel" aria-labelledby="context-heading">
+        <div class="panel-heading">
+          <p class="eyebrow">01 / Context</p>
+          <h2 id="context-heading">What is known?</h2>
+        </div>
+        <label for="question">Research question</label>
+        <textarea id="question" rows="5" placeholder="State one falsifiable market question…"></textarea>
+        <div class="context-notes">
+          <p>Keep evidence separate from interpretation. This prototype stores entries only in this browser.</p>
+          <ul>
+            <li>No exchange connection</li>
+            <li>No orders or recommendations</li>
+            <li>No data leaves this device</li>
+          </ul>
+        </div>
+      </aside>
+
+      <section class="focus-panel" aria-labelledby="focus-heading">
+        <div class="focus-toolbar">
+          <div>
+            <p class="eyebrow">02 / Focus</p>
+            <h2 id="focus-heading">Research canvas</h2>
+          </div>
+          <button class="text-button" id="clear-workspace" type="button">Clear local workspace</button>
+        </div>
+
+        <form id="observation-form" class="observation-form">
+          <label for="observation">Observation</label>
+          <textarea id="observation" rows="4" required placeholder="Record an observed pattern, source, or counterexample…"></textarea>
+          <div class="form-grid">
+            <label for="source">Source or dataset<input id="source" type="text" placeholder="e.g. BTCUSDT 1h, 2026-07-31"></label>
+            <label for="confidence">Confidence
+              <select id="confidence">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+              </select>
+            </label>
+          </div>
+          <div class="form-actions">
+            <p id="save-state" role="status">Nothing is saved yet.</p>
+            <button class="primary-button" type="submit">Add observation</button>
+          </div>
+        </form>
+
+        <div class="ledger-heading">
+          <h3>Observation ledger</h3>
+          <span id="entry-count">0 entries</span>
+        </div>
+        <ol id="observation-list" class="observation-list" aria-live="polite"></ol>
+      </section>
+
+      <aside class="panel tool-panel" aria-labelledby="tools-heading">
+        <div class="panel-heading">
+          <p class="eyebrow">03 / Tools</p>
+          <h2 id="tools-heading">How to test it?</h2>
+        </div>
+        <div class="tool-card">
+          <h3>Working rule</h3>
+          <p>Every claim needs a source, a confidence level, and a way to be disproved.</p>
+        </div>
+        <div class="tool-card">
+          <h3>Suggested next pass</h3>
+          <ol>
+            <li>Define the instrument and timeframe.</li>
+            <li>Add one observation and one counterexample.</li>
+            <li>Export the ledger for review.</li>
+          </ol>
+        </div>
+        <button class="secondary-button" id="export-ledger" type="button">Export ledger (.json)</button>
+      </aside>
+    </main>
+
+    <template id="observation-template">
+      <li class="observation-card">
+        <div class="observation-topline"><span class="confidence"></span><time></time></div>
+        <p class="observation-text"></p>
+        <p class="observation-source"></p>
+        <button class="delete-entry" type="button">Remove</button>
+      </li>
+    </template>
+    <script src="app.js"></script>
+  </body>
+</html>
