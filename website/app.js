@@ -44,8 +44,17 @@ function playPanelSound() {
   } catch { /* Keep interaction silent when audio is unavailable or blocked. */ }
 }
 
+function collapseAccordions() {
+  accordionToggles.forEach((toggle) => {
+    const panel = document.querySelector(`#${toggle.getAttribute("aria-controls")}`);
+    toggle.setAttribute("aria-expanded", "false");
+    if (panel) panel.hidden = true;
+  });
+}
+
 function setState(next) {
   if (state !== next) playPanelSound();
+  if (next !== State.NONE && state !== next) collapseAccordions();
   state = next;
   root.classList.toggle("panel-open", state !== State.NONE);
   root.classList.toggle("state-left", state === State.LEFT);
