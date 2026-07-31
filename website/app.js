@@ -32,7 +32,7 @@ function playPanelRustle() {
     filter.type = "bandpass";
     filter.frequency.value = 900;
     filter.Q.value = .55;
-    gain.gain.setValueAtTime(.016, audioContext.currentTime);
+    gain.gain.setValueAtTime(.032, audioContext.currentTime);
     gain.gain.exponentialRampToValueAtTime(.001, audioContext.currentTime + duration);
     source.connect(filter).connect(gain).connect(audioContext.destination);
     source.start();
