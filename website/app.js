@@ -6,6 +6,7 @@ const toolsTrigger = document.querySelector("#open-tools");
 const contextPanel = document.querySelector("#context-panel");
 const toolsPanel = document.querySelector("#tools-panel");
 const pages = [...document.querySelectorAll(".workspace-page")];
+const transcriptParts = [...document.querySelectorAll("[data-transcript-part]")];
 const sectionButtons = [...document.querySelectorAll("button[data-section]")];
 const accordionToggles = [...document.querySelectorAll(".accordion-toggle")];
 const actionButtons = [...document.querySelectorAll(".tool-actions button[data-action]")];
@@ -13,6 +14,42 @@ const toolStatus = document.querySelector("#tool-status");
 let state = State.NONE;
 let audioContext;
 let activePanelSound;
+let transcriptPromise;
+
+function splitTranscript(text, count) {
+  const paragraphs = text.replace(/\r/g, "").split(/\n{2,}/);
+  const targetSize = text.length / count;
+  const chunks = [];
+  let chunk = "";
+  paragraphs.forEach((paragraph) => {
+    const next = chunk ? `${chunk}\n\n${paragraph}` : paragraph;
+    if (chunks.length < count - 1 && chunk.length && next.length > targetSize) {
+      chunks.push(chunk);
+      chunk = paragraph;
+    } else {
+      chunk = next;
+    }
+  });
+  chunks.push(chunk);
+  while (chunks.length < count) chunks.push("");
+  return chunks;
+}
+
+async function renderTranscriptPart(target) {
+  const content = target.querySelector(".transcript-content");
+  if (!content || content.dataset.loaded) return;
+  try {
+    transcriptPromise ??= fetch("assets/gfl-session-transcript-0003.txt").then((response) => {
+      if (!response.ok) throw new Error("Transcript unavailable");
+      return response.text();
+    });
+    const parts = splitTranscript(await transcriptPromise, transcriptParts.length);
+    content.textContent = parts[Number(target.dataset.transcriptPart)] || "";
+    content.dataset.loaded = "true";
+  } catch {
+    content.textContent = "The source transcript is temporarily unavailable.";
+  }
+}
 
 function playPanelSound() {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !navigator.userActivation?.isActive) return;
@@ -84,6 +121,7 @@ function showSection(id) {
   pages.forEach((page) => page.classList.toggle("is-active", page === target));
   sectionButtons.forEach((button) => button.setAttribute("aria-current", String(button.dataset.section === id)));
   document.title = `${target.querySelector("h2").textContent} - Geometry Finance Lab`;
+  if (target.dataset.transcriptPart !== undefined) renderTranscriptPart(target);
   workspace.scrollTo({ top: 0, behavior: "smooth" });
   setState(State.NONE);
 }
