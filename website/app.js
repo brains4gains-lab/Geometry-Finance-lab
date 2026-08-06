@@ -14,6 +14,8 @@ const toolStatus = document.querySelector("#tool-status");
 const soundToggles = [...document.querySelectorAll("[data-sound-toggle]")];
 const searchInput = document.querySelector("#observatory-search");
 const searchResults = document.querySelector("#search-results");
+const randomObservationButtons = [...document.querySelectorAll('[data-action="random-observation"]')];
+const foundingDayCounters = [...document.querySelectorAll("[data-days-since-founding]")];
 let state = State.NONE;
 let audioContext;
 let activePanelSound;
@@ -177,3 +179,12 @@ setState(State.NONE);
 updateSoundToggles();
 const initialSection = decodeURIComponent(window.location.hash.slice(1));
 if (initialSection) showSection(initialSection, { updateHash: false });
+randomObservationButtons.forEach((button) => button.addEventListener("click", () => {
+  const options = ["observations", "values", "principles", "hypothesis", "questions"];
+  showSection(options[Math.floor(Math.random() * options.length)]);
+}));
+foundingDayCounters.forEach((counter) => {
+  const founded = new Date(`${counter.dataset.founded}T00:00:00`);
+  const days = Math.max(0, Math.floor((Date.now() - founded.getTime()) / 86400000));
+  counter.textContent = String(days);
+});
