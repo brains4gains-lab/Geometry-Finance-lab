@@ -11,10 +11,14 @@ const sectionButtons = [...document.querySelectorAll("button[data-section]")];
 const accordionToggles = [...document.querySelectorAll(".accordion-toggle")];
 const actionButtons = [...document.querySelectorAll(".tool-actions button[data-action]")];
 const toolStatus = document.querySelector("#tool-status");
+const soundToggles = [...document.querySelectorAll("[data-sound-toggle]")];
+const searchInput = document.querySelector("#observatory-search");
+const searchResults = document.querySelector("#search-results");
 let state = State.NONE;
 let audioContext;
 let activePanelSound;
 let transcriptPromise;
+let soundEnabled = (() => { try { return localStorage.getItem("gflab-sound") !== "off"; } catch { return true; } })();
 
 function splitTranscript(text, count) {
   const paragraphs = text.replace(/\r/g, "").split(/\n{2,}/);
@@ -52,7 +56,7 @@ async function renderTranscriptPart(target) {
 }
 
 function playPanelSound() {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !navigator.userActivation?.isActive) return;
+  if (!soundEnabled || window.matchMedia("(prefers-reduced-motion: reduce)").matches || !navigator.userActivation?.isActive) return;
   try {
     audioContext ??= new AudioContext();
     if (audioContext.state === "suspended") audioContext.resume();
@@ -115,15 +119,37 @@ function toggleAccordion(toggle) {
   });
 }
 
-function showSection(id) {
+function showSection(id, { updateHash = true } = {}) {
   const target = document.querySelector(`#${id}`);
   if (!target) return;
   pages.forEach((page) => page.classList.toggle("is-active", page === target));
   sectionButtons.forEach((button) => button.setAttribute("aria-current", String(button.dataset.section === id)));
   document.title = `${target.querySelector("h2").textContent} - Geometry Finance Lab`;
   if (target.dataset.transcriptPart !== undefined) renderTranscriptPart(target);
+  if (updateHash && window.location.hash !== `#${id}`) history.replaceState(null, "", `${window.location.pathname}${window.location.search}#${id}`);
   workspace.scrollTo({ top: 0, behavior: "smooth" });
   setState(State.NONE);
+}
+
+function renderSearch(query = "") {
+  if (!searchResults) return;
+  const normalized = query.trim().toLowerCase();
+  const excluded = new Set(["search", "obs-archive", "architecture", "growth-plan", "focus-reading"]);
+  const matches = pages.filter((page) => !excluded.has(page.id) && (!normalized || page.textContent.toLowerCase().includes(normalized)));
+  searchResults.replaceChildren(...matches.map((page) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = page.querySelector("h2")?.textContent || page.id;
+    button.addEventListener("click", () => showSection(page.id));
+    return button;
+  }));
+}
+
+function updateSoundToggles() {
+  soundToggles.forEach((button) => {
+    button.textContent = `Sound: ${soundEnabled ? "on" : "off"}`;
+    button.setAttribute("aria-pressed", String(soundEnabled));
+  });
 }
 
 contextTrigger.addEventListener("click", () => toggle(State.LEFT));
@@ -133,4 +159,21 @@ document.addEventListener("keydown", (event) => { if (event.key === "Escape") se
 sectionButtons.forEach((button) => button.addEventListener("click", () => showSection(button.dataset.section)));
 accordionToggles.forEach((toggle) => toggle.addEventListener("click", () => toggleAccordion(toggle)));
 actionButtons.forEach((button) => button.addEventListener("click", () => { toolStatus.textContent = `${button.textContent} is reserved for a future laboratory action.`; }));
+soundToggles.forEach((button) => button.addEventListener("click", () => {
+  soundEnabled = !soundEnabled;
+  try { localStorage.setItem("gflab-sound", soundEnabled ? "on" : "off"); } catch { /* Keep the current session preference. */ }
+  updateSoundToggles();
+  if (toolStatus) toolStatus.textContent = `Sound is ${soundEnabled ? "on" : "off"}.`;
+}));
+if (searchInput) {
+  searchInput.addEventListener("input", () => renderSearch(searchInput.value));
+  renderSearch();
+}
+window.addEventListener("hashchange", () => {
+  const id = decodeURIComponent(window.location.hash.slice(1));
+  if (id) showSection(id, { updateHash: false });
+});
 setState(State.NONE);
+updateSoundToggles();
+const initialSection = decodeURIComponent(window.location.hash.slice(1));
+if (initialSection) showSection(initialSection, { updateHash: false });
