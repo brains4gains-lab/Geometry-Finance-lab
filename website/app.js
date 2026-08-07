@@ -16,11 +16,31 @@ const searchInput = document.querySelector("#observatory-search");
 const searchResults = document.querySelector("#search-results");
 const randomObservationButtons = [...document.querySelectorAll('[data-action="random-observation"]')];
 const foundingDayCounters = [...document.querySelectorAll("[data-days-since-founding]")];
+const dailyObservationTitle = document.querySelector("[data-daily-title]");
+const dailyObservationBody = document.querySelector("[data-daily-body]");
 let state = State.NONE;
 let audioContext;
 let activePanelSound;
 let transcriptPromise;
 let soundEnabled = (() => { try { return localStorage.getItem("gflab-sound") !== "off"; } catch { return true; } })();
+
+const dailyObservations = [
+  ["Attention is part of the method.", "A place for research should make it easier to remain with one question."],
+  ["Trust leaves a trace.", "What we remember together changes what becomes possible next."],
+  ["A quiet interface can hold a difficult question.", "Clarity is not emptiness; it is room for thought."],
+  ["Curiosity is a form of movement.", "One honest question can make a whole system more alive."],
+  ["Cooperation needs a memory.", "Shared history lets people and agents return to the same work with care."]
+];
+
+function renderDailyObservation() {
+  if (!dailyObservationTitle || !dailyObservationBody) return;
+  const start = new Date("2026-01-01T00:00:00");
+  const today = new Date();
+  const day = Math.max(0, Math.floor((today - start) / 86400000));
+  const [title, body] = dailyObservations[day % dailyObservations.length];
+  dailyObservationTitle.textContent = title;
+  dailyObservationBody.textContent = body;
+}
 
 function splitTranscript(text, count) {
   const paragraphs = text.replace(/\r/g, "").split(/\n{2,}/);
@@ -183,6 +203,7 @@ randomObservationButtons.forEach((button) => button.addEventListener("click", ()
   const options = ["observations", "values", "principles", "hypothesis", "questions"];
   showSection(options[Math.floor(Math.random() * options.length)]);
 }));
+renderDailyObservation();
 foundingDayCounters.forEach((counter) => {
   const founded = new Date(`${counter.dataset.founded}T00:00:00`);
   const days = Math.max(0, Math.floor((Date.now() - founded.getTime()) / 86400000));
