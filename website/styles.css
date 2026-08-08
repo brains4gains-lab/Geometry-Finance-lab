@@ -19,3 +19,25 @@ button { font:inherit; cursor:pointer; }
 @media (prefers-reduced-motion:reduce) { *,*::after { animation-duration:1ms !important; transition-duration:1ms !important; scroll-behavior:auto !important; } }
 @media (max-width:900px) { .focus-layout { grid-template-columns:1fr; gap:1rem; }.focus-context { display:none; }.related-thoughts { grid-template-columns:repeat(3,minmax(0,1fr)); border-top:1px solid var(--line); padding-top:.8rem; }.related-thoughts .eyebrow { grid-column:1/-1; }.principle-badge { position:static; max-width:700px; margin:0 auto 1.5rem; }.observatory-signature { display:none; }.observatory-numbers { grid-template-columns:repeat(3,minmax(0,1fr)); }.observation-evidence { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @media (max-width:700px) { .app-header { height:68px; }.workspace { inset:68px 0 0; padding:2.2rem 1.4rem 4rem; }.workspace::after { inset:68px 0 0; }.side-panel { top:68px; width:83vw; }.member-list,.principle-list,.related-thoughts { grid-template-columns:1fr; }.observatory-numbers { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+
+/* OBS-0008: preserve the Observatory character while tightening the thought-space. */
+.observatory-shell .workspace { padding-top:clamp(1.5rem,4vw,3.25rem); padding-bottom:clamp(2rem,5vw,4rem); }
+.observatory-shell .workspace-page { max-width:640px; line-height:1.58; }
+.observatory-shell .workspace-page h2 { margin-bottom:.85rem; }
+.observatory-shell .workspace-page blockquote { margin:1.35rem 0; padding:.85rem 1rem; }
+.observatory-shell .today-observation { margin-top:1.25rem; }
+.observatory-shell .observatory-numbers { margin-top:1.2rem; }
+.observatory-shell .context-panel .panel-inner h2 { white-space:nowrap; font-size:clamp(1.25rem,2.4vw,1.8rem); }
+.observatory-shell .section-menu button { white-space:nowrap; }
+.language-icon { width:2.3rem; font-size:.68rem; letter-spacing:0; }
+.abstract-list { display:grid; margin-top:1.4rem; border-top:1px solid var(--line); }
+.thought-abstract { border-bottom:1px solid var(--line); }
+.thought-abstract summary { padding:.8rem .2rem; cursor:pointer; color:var(--paper); list-style:none; }
+.thought-abstract summary::-webkit-details-marker { display:none; }
+.thought-abstract summary::after { content:"+"; float:right; }
+.thought-abstract[open] summary::after { content:"−"; }
+.thought-abstract p { margin:0; padding:0 .2rem 1rem; color:var(--quiet); }
+body[data-palette="ink"] { --ink:#050505; --paper:#f5f5f5; --quiet:#a6a6a6; --line:rgba(245,245,245,.24); --cover:#111; }
+body[data-palette="grey"] { --ink:#202020; --paper:#dedede; --quiet:#989898; --line:rgba(222,222,222,.24); --cover:#2b2b2b; }
+body[data-palette="warm"] { --ink:#24221f; --paper:#eee1d2; --quiet:#aa9c8e; --line:rgba(238,225,210,.25); --cover:#302d29; }
+@media (max-width:900px) { .observatory-shell .workspace-page { max-width:100%; } .observatory-shell .focus-layout { gap:.8rem; } .observatory-shell .related-thoughts { margin-top:.25rem; } }

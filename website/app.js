@@ -16,6 +16,8 @@ const searchInput = document.querySelector("#observatory-search");
 const searchResults = document.querySelector("#search-results");
 const randomObservationButtons = [...document.querySelectorAll('[data-action="random-observation"]')];
 const foundingDayCounters = [...document.querySelectorAll("[data-days-since-founding]")];
+const languageButtons = [...document.querySelectorAll('[data-action="language"]')];
+const abstractCards = [...document.querySelectorAll(".thought-abstract")];
 const dailyObservationTitle = document.querySelector("[data-daily-title]");
 const dailyObservationBody = document.querySelector("[data-daily-body]");
 let state = State.NONE;
@@ -23,6 +25,15 @@ let audioContext;
 let activePanelSound;
 let transcriptPromise;
 let soundEnabled = (() => { try { return localStorage.getItem("gflab-sound") !== "off"; } catch { return true; } })();
+let paletteIndex = (() => { try { return Number(localStorage.getItem("gflab-palette") || 0); } catch { return 0; } })();
+const palettes = ["current", "ink", "grey", "warm"];
+function applyPalette(index, announce = false) {
+  paletteIndex = (index + palettes.length) % palettes.length;
+  document.body.dataset.palette = palettes[paletteIndex];
+  try { localStorage.setItem("gflab-palette", String(paletteIndex)); } catch { /* Keep the current session preference. */ }
+  if (announce && toolStatus) toolStatus.textContent = "Palette: " + palettes[paletteIndex] + ".";
+}
+function cyclePalette() { applyPalette(paletteIndex + 1, true); }
 
 const dailyObservations = [
   ["Attention is part of the method.", "A place for research should make it easier to remain with one question."],
@@ -180,7 +191,9 @@ workspace.addEventListener("click", () => { if (state !== State.NONE) setState(S
 document.addEventListener("keydown", (event) => { if (event.key === "Escape") setState(State.NONE); });
 sectionButtons.forEach((button) => button.addEventListener("click", () => showSection(button.dataset.section)));
 accordionToggles.forEach((toggle) => toggle.addEventListener("click", () => toggleAccordion(toggle)));
-actionButtons.forEach((button) => button.addEventListener("click", () => { toolStatus.textContent = `${button.textContent} is reserved for a future laboratory action.`; }));
+actionButtons.forEach((button) => button.addEventListener("click", () => { if (button.dataset.action === "palette") { cyclePalette(); return; } toolStatus.textContent = button.textContent + " is reserved for a future laboratory action."; }));
+languageButtons.forEach((button) => button.addEventListener("click", () => { if (toolStatus) toolStatus.textContent = "Language control is ready for the next translation layer."; }));
+abstractCards.forEach((card) => card.addEventListener("toggle", () => { if (!card.open) return; abstractCards.forEach((other) => { if (other !== card) other.open = false; }); }));
 soundToggles.forEach((button) => button.addEventListener("click", () => {
   soundEnabled = !soundEnabled;
   try { localStorage.setItem("gflab-sound", soundEnabled ? "on" : "off"); } catch { /* Keep the current session preference. */ }
@@ -196,6 +209,7 @@ window.addEventListener("hashchange", () => {
   if (id) showSection(id, { updateHash: false });
 });
 setState(State.NONE);
+applyPalette(paletteIndex);
 updateSoundToggles();
 const initialSection = decodeURIComponent(window.location.hash.slice(1));
 if (initialSection) showSection(initialSection, { updateHash: false });
