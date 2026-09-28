@@ -31,6 +31,7 @@ These rules apply to every page in this site:
 9. **Regular body text.** Keep ordinary text at the readable regular weight; reserve bold for headings and section labels.
 10. **Closer beginning.** Keep the workspace content near the top edge; the default top breathing space is intentionally reduced.
 11. **Compact reading rhythm.** Use the communication page’s readable regular body size and tighter vertical spacing as the default for ordinary pages.
+12. **Four-choice levels.** Keep every menu and accordion level to no more than four choices. Use deeper, meaningful groups for additional content instead of broad lists.
 
 ### Layer 3: specialist interfaces
 
