@@ -17,6 +17,7 @@ These rules apply to every page in this site:
 5. **Quiet usefulness.** Prefer familiar navigation, readable density, direct labels, and no decorative feature that competes with the question being read.
 6. **Phone first.** Touch targets, readable spacing, and comfortable panel width take priority on small screens. Desktop density must not make the phone experience worse.
 7. **Minimal language.** Show only words that serve our actual work. Omit conventional website copy, explanations, labels, and status text unless they are necessary for orientation or action.
+8. **Inline links.** Give ordinary links as compact blue text lines inside the reading flow. Do not replace a simple link with a large preview card or an embedded link panel unless the content genuinely needs a preview.
 
 ### Layer 2: this site's visual and interaction shell
 
@@ -27,11 +28,11 @@ These rules apply to every page in this site:
 5. **No ornamental drift.** Avoid gradients, bright SaaS colors, unnecessary cards, decorative frames, and extra accent colors unless a new rule is approved.
 6. **Selected page only.** The workspace shows the selected page; menu navigation closes the active panel and restores a clear reading surface.
 7. **Ockham test.** Every visible element must justify its space. When two versions work equally well, keep the quieter and shorter one.
-8. **Compact header A.** Use the selected 38px header with the small uppercase `Geometry Finance Lab` title as the site-wide header standard.
-9. **Regular body text.** Keep ordinary text at the readable regular weight; reserve bold for headings and section labels.
-10. **Closer beginning.** Keep the workspace content near the top edge; the default top breathing space is intentionally reduced.
-11. **Compact reading rhythm.** Use the communication page’s readable regular body size and tighter vertical spacing as the default for ordinary pages.
-12. **Four-choice levels.** Keep every menu and accordion level to no more than four choices. Use deeper, meaningful groups for additional content instead of broad lists.
+9. **Compact header A.** Use the selected 38px header with the small uppercase `Geometry Finance Lab` title as the site-wide header standard.
+10. **Regular body text.** Keep ordinary text at the readable regular weight; reserve bold for headings and section labels.
+11. **Closer beginning.** Keep the workspace content near the top edge; the default top breathing space is intentionally reduced.
+12. **Compact reading rhythm.** Use the communication page’s readable regular body size and tighter vertical spacing as the default for ordinary pages.
+13. **Four-choice levels.** Keep every menu and accordion level to no more than four choices. Use deeper, meaningful groups for additional content instead of broad lists.
 
 ### Layer 3: specialist interfaces
 
