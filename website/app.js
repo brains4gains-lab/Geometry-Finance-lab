@@ -1,4 +1,6 @@
 const State = Object.freeze({ NONE: "none", LEFT: "left", RIGHT: "right" });
+// These values are the executable counterpart of website/DESIGN_RULES.md.
+const DESIGN_RULES = Object.freeze({ theme: "dark", oneOpen: true, phoneFirst: true, minimalLanguage: true });
 const root = document.body;
 const workspace = document.querySelector("#workspace");
 const contextTrigger = document.querySelector("#open-context");
@@ -18,6 +20,9 @@ const randomObservationButtons = [...document.querySelectorAll('[data-action="ra
 const foundingDayCounters = [...document.querySelectorAll("[data-days-since-founding]")];
 const languageButtons = [...document.querySelectorAll('[data-action="language"]')];
 const abstractCards = [...document.querySelectorAll(".thought-abstract")];
+const transferPadFields = [...document.querySelectorAll(".transfer-pad")];
+const transferStatus = document.querySelector("#transfer-status");
+const verbatimFileSections = [...document.querySelectorAll("[data-verbatim-file]")];
 const dailyObservationTitle = document.querySelector("[data-daily-title]");
 const dailyObservationBody = document.querySelector("[data-daily-body]");
 let state = State.NONE;
@@ -25,15 +30,9 @@ let audioContext;
 let activePanelSound;
 let transcriptPromise;
 let soundEnabled = (() => { try { return localStorage.getItem("gflab-sound") !== "off"; } catch { return true; } })();
-let paletteIndex = (() => { try { return Number(localStorage.getItem("gflab-palette") || 0); } catch { return 0; } })();
-const palettes = ["current", "ink", "grey", "warm"];
-function applyPalette(index, announce = false) {
-  paletteIndex = (index + palettes.length) % palettes.length;
-  document.body.dataset.palette = palettes[paletteIndex];
-  try { localStorage.setItem("gflab-palette", String(paletteIndex)); } catch { /* Keep the current session preference. */ }
-  if (announce && toolStatus) toolStatus.textContent = "Palette: " + palettes[paletteIndex] + ".";
-}
-function cyclePalette() { applyPalette(paletteIndex + 1, true); }
+
+root.dataset.theme = DESIGN_RULES.theme;
+root.dataset.designRules = "0.1";
 
 const dailyObservations = [
   ["Attention is part of the method.", "A place for research should make it easier to remain with one question."],
@@ -85,6 +84,19 @@ async function renderTranscriptPart(target) {
     content.dataset.loaded = "true";
   } catch {
     content.textContent = "The source transcript is temporarily unavailable.";
+  }
+}
+
+async function renderVerbatimFile(target) {
+  const content = target.querySelector("[data-verbatim-file]");
+  if (!content || content.dataset.loaded) return;
+  try {
+    const response = await fetch(content.dataset.verbatimFile);
+    if (!response.ok) throw new Error("Verbatim file unavailable");
+    content.textContent = await response.text();
+    content.dataset.loaded = "true";
+  } catch {
+    content.textContent = "The file is temporarily unavailable.";
   }
 }
 
@@ -145,7 +157,10 @@ function toggleAccordion(toggle) {
   const panel = document.querySelector(`#${toggle.getAttribute("aria-controls")}`);
   if (!panel) return;
   const willExpand = toggle.getAttribute("aria-expanded") !== "true";
-  accordionToggles.forEach((otherToggle) => {
+  // DESIGN_RULES.oneOpen keeps one open item at each menu level.
+  const scope = toggle.closest(".submenu") || toggle.closest(".section-menu, .tool-actions");
+  const scopedToggles = scope ? [...scope.querySelectorAll(":scope > .menu-group > .accordion-toggle")] : [toggle];
+  scopedToggles.forEach((otherToggle) => {
     const otherPanel = document.querySelector(`#${otherToggle.getAttribute("aria-controls")}`);
     otherToggle.setAttribute("aria-expanded", String(otherToggle === toggle && willExpand));
     if (otherPanel) otherPanel.hidden = otherToggle !== toggle || !willExpand;
@@ -159,6 +174,7 @@ function showSection(id, { updateHash = true } = {}) {
   sectionButtons.forEach((button) => button.setAttribute("aria-current", String(button.dataset.section === id)));
   document.title = `${target.querySelector("h2").textContent} - Geometry Finance Lab`;
   if (target.dataset.transcriptPart !== undefined) renderTranscriptPart(target);
+  if (target.querySelector("[data-verbatim-file]")) renderVerbatimFile(target);
   if (updateHash && window.location.hash !== `#${id}`) history.replaceState(null, "", `${window.location.pathname}${window.location.search}#${id}`);
   workspace.scrollTo({ top: 0, behavior: "smooth" });
   setState(State.NONE);
@@ -185,13 +201,39 @@ function updateSoundToggles() {
   });
 }
 
+function saveTransferNotebook() {
+  try {
+    const values = Object.fromEntries(transferPadFields.map((field) => [field.dataset.pad, field.value]));
+    localStorage.setItem("gflab-transfer-notebook", JSON.stringify(values));
+    if (transferStatus) transferStatus.textContent = "Saved locally in this browser.";
+  } catch {
+    if (transferStatus) transferStatus.textContent = "This browser could not save the notebook.";
+  }
+}
+
+function loadTransferNotebook() {
+  try {
+    const values = JSON.parse(localStorage.getItem("gflab-transfer-notebook") || "{}");
+    transferPadFields.forEach((field) => { if (typeof values[field.dataset.pad] === "string") field.value = values[field.dataset.pad]; });
+  } catch { /* An empty notebook remains usable if stored data is unavailable. */ }
+}
+
+function insertDroppedText(field, text) {
+  const start = field.selectionStart ?? field.value.length;
+  const end = field.selectionEnd ?? start;
+  field.value = `${field.value.slice(0, start)}${text}${field.value.slice(end)}`;
+  field.setSelectionRange(start + text.length, start + text.length);
+  field.focus();
+  saveTransferNotebook();
+}
+
 contextTrigger.addEventListener("click", () => toggle(State.LEFT));
 toolsTrigger.addEventListener("click", () => toggle(State.RIGHT));
 workspace.addEventListener("click", () => { if (state !== State.NONE) setState(State.NONE); });
 document.addEventListener("keydown", (event) => { if (event.key === "Escape") setState(State.NONE); });
 sectionButtons.forEach((button) => button.addEventListener("click", () => showSection(button.dataset.section)));
 accordionToggles.forEach((toggle) => toggle.addEventListener("click", () => toggleAccordion(toggle)));
-actionButtons.forEach((button) => button.addEventListener("click", () => { if (button.dataset.action === "palette") { cyclePalette(); return; } toolStatus.textContent = button.textContent + " is reserved for a future laboratory action."; }));
+actionButtons.forEach((button) => button.addEventListener("click", () => { toolStatus.textContent = button.textContent + " is reserved for a future laboratory action."; }));
 languageButtons.forEach((button) => button.addEventListener("click", () => { if (toolStatus) toolStatus.textContent = "Language control is ready for the next translation layer."; }));
 abstractCards.forEach((card) => card.addEventListener("toggle", () => { if (!card.open) return; abstractCards.forEach((other) => { if (other !== card) other.open = false; }); }));
 soundToggles.forEach((button) => button.addEventListener("click", () => {
@@ -209,7 +251,6 @@ window.addEventListener("hashchange", () => {
   if (id) showSection(id, { updateHash: false });
 });
 setState(State.NONE);
-applyPalette(paletteIndex);
 updateSoundToggles();
 const initialSection = decodeURIComponent(window.location.hash.slice(1));
 if (initialSection) showSection(initialSection, { updateHash: false });
@@ -217,6 +258,16 @@ randomObservationButtons.forEach((button) => button.addEventListener("click", ()
   const options = ["observations", "values", "principles", "hypothesis", "questions"];
   showSection(options[Math.floor(Math.random() * options.length)]);
 }));
+loadTransferNotebook();
+transferPadFields.forEach((field) => {
+  field.addEventListener("input", saveTransferNotebook);
+  field.addEventListener("dragover", (event) => event.preventDefault());
+  field.addEventListener("drop", (event) => {
+    event.preventDefault();
+    const text = event.dataTransfer?.getData("text/plain");
+    if (text) insertDroppedText(field, text);
+  });
+});
 renderDailyObservation();
 foundingDayCounters.forEach((counter) => {
   const founded = new Date(`${counter.dataset.founded}T00:00:00`);

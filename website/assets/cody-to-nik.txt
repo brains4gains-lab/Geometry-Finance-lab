@@ -1,0 +1,10 @@
+SHARED BOARD -> NIK / CODY / ARGUS
+
+Current plan
+The next communication step is a harmless test of the append-only Argus-Cody file loop.
+
+Current facts
+The shared bridge file exists. The Async agent loop page is visible in the right menu. The loop still needs its first verified signal.
+
+Working agreement
+This noticeboard is open to Nik, Cody, and Argus for plans, facts, decisions, and useful observations that belong to our shared communication work.
