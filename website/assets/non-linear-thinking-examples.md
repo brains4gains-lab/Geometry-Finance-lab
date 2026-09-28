@@ -1,7 +1,3 @@
-# Non-linear thinking examples
-
-This is a working catalogue for the YC Match profile and the Geometry Finance Lab site. Non-linear thinking here means joining information from distant fields that is not usually joined, then applying the connection to a concrete problem. Each entry should preserve the source insight, the event, the structural move, and the result.
-
 ## 1. Comfort through structure
 
 **Participants:** Nik and Cody, with the result to be shared with Argus.
